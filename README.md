@@ -4,9 +4,9 @@
 
 This repository contains the code developed as part of my thesis, **“Physical Layer Modeling using Synchronous Machine Learning Techniques.”**
 
-The project combines **finite element modeling of the human knee in FEBio** with **deep learning** for the prediction of the mechanical response of the medial and lateral menisci.
+The project combines finite element modeling of the human knee in FEBio with deep learning for the prediction of the mechanical response of the medial and lateral menisci.
 
-The complete computational workflow includes preprocessing and modification of the finite element knee model, remeshing of anatomical structures, replacement of selected ligament representations with spring-based elements, generation of walking-related loading cases, extraction of biomechanical results from FEBio, construction of an image-based dataset, and development of a U-Net-based surrogate model.
+The complete computational workflow includes preprocessing and modification of the finite element knee model, remeshing of anatomical structures, generation of walking-related loading cases, extraction of biomechanical results from FEBio, construction of an image-based dataset, and development of a U-Net-based surrogate model.
 
 Finite element simulations were performed under time-dependent loading conditions representative of walking, combining compressive loading with knee flexion–extension throughout the gait cycle. The resulting mechanical response of the menisci was exported as grayscale spatial field maps and used as ground-truth data for neural-network training.
 
@@ -16,13 +16,13 @@ The objective of the surrogate model is to approximate the spatial biomechanical
 
 ## Finite Element Modeling Workflow
 
-The finite element component of the project was developed using **FEBio**.
+The finite element component of the project was developed using FEBio.
 
 The preprocessing stage includes scripts used during preparation and modification of the knee model, including:
 
-- Remeshing of selected anatomical structures
 - Preparation and modification of model geometry
 - Conversion or replacement of selected ligament representations with spring-based elements
+- Remeshing of selected anatomical structures
 - Preparation of the final model used for the FEBio simulations
 
 The model was subsequently simulated under different combinations of compressive loading and knee flexion.
@@ -40,7 +40,7 @@ The main quantities extracted from the menisci were:
 
 ## Deep Learning Surrogate Model
 
-The surrogate model is based on a **2D U-Net convolutional neural network with scalar conditioning at the bottleneck**.
+The surrogate model is based on a 2D U-Net convolutional neural network with scalar conditioning at the bottleneck.
 
 The network learns a mapping between the geometric and loading information describing a simulation state and the biomechanical response obtained from FEBio.
 
@@ -86,7 +86,7 @@ The surrogate model follows an encoder–decoder U-Net architecture consisting o
 - Skip connections between corresponding encoder and decoder levels
 - A final convolutional layer producing four output channels
 
-The skip connections preserve spatial information from the encoder during reconstruction, while the scalar-conditioning branch allows the mechanical predictions to vary according to the applied loading and knee-flexion state.
+
 
 ---
 
@@ -229,9 +229,9 @@ Knee finite element geometry
             ↓
 Finite element preprocessing
             ↓
-Remeshing and model modifications
-            ↓
 Ligament / spring preparation
+            ↓
+Remeshing and model modifications
             ↓
 Final FEBio knee model
             ↓
@@ -260,7 +260,7 @@ However, detailed nonlinear finite element simulations of the knee are computati
 
 The purpose of the deep learning component of this work is therefore to investigate whether a neural network can learn the relationship between the prescribed loading and kinematic conditions and the resulting meniscal mechanical response.
 
-The trained U-Net acts as a **surrogate model of the finite element simulations**. It does not replace the underlying physical finite element model; instead, it learns from FEBio-generated solutions and provides a significantly faster approximation for previously unseen conditions within the range represented by the training data.
+The trained U-Net acts as a surrogate model of the finite element simulations. It does not replace the underlying physical finite element model; instead, it learns from FEBio-generated solutions and provides a significantly faster approximation for previously unseen conditions within the range represented by the training data.
 
 ---
 
@@ -286,10 +286,10 @@ This repository accompanies the thesis:
 
 **Physical Layer Modeling using Synchronous Machine Learning Techniques**
 
-**University of Patras**  
+University of Patras  
 Department of Electrical and Computer Engineering
 
-**Full thesis:** *Official thesis link will be added here.*
+**Full thesis:** https://hdl.handle.net/10889/32299
 
 ---
 
@@ -303,4 +303,6 @@ See the `LICENSE` file for details.
 
 ## Author
 
-Developed as part of a thesis project at the **University of Patras**.
+Georgiou Efstratios  
+Department of Electrical and Computer Engineering  
+University of Patras
