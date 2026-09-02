@@ -21,7 +21,7 @@ The finite element component of the project was developed using FEBio.
 The preprocessing stage includes scripts used during preparation and modification of the knee model, including:
 
 - Preparation and modification of model geometry
-- Conversion or replacement of selected ligament representations with spring-based elements
+- Replacement of selected ligaments with spring-based elements
 - Remeshing of selected anatomical structures
 - Preparation of the final model used for the FEBio simulations
 
