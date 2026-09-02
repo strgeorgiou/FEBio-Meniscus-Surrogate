@@ -96,11 +96,13 @@ The surrogate model follows an encoder–decoder U-Net architecture consisting o
 FEBio-Meniscus-Surrogate/
 │
 ├── fem_preprocessing/
-│   ├── remeshing/
-│   │   └── ...
+│   ├── ligament_to_springs/
+│   │   └── ligaments_to_non_linear_springs.m
 │   │
-│   └── ligament_to_springs/
-│       └── ...
+│   └── remeshing/
+│       ├── remeshing_step_1.m
+│       ├── remeshing_step_2.m
+│       └── evaluate_mesh_sizes.m
 │
 ├── surrogate_model/
 │   ├── final_unet.py
