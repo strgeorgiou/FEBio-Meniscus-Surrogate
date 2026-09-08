@@ -12,6 +12,7 @@ from final_unet import MeniscusUNet
 # --------- CONFIG ---------
 DATA_ROOT  = r"path\to\dataset"
 CKPT_PATH  = r"checkpoints\meniscus_unet_best.pth"
+GRAY_ROOT  = r"path\to\predictions"
 OUT_ROOT   = r"path\to\predictions_color"
 TEST_CASES = ["walking_10", "walking_18"]
 
@@ -60,6 +61,18 @@ def save_color(arr, path, mask=None, vmin=0.0, vmax=1.0):
     Image.fromarray(rgb).save(path)
 
 
+def save_gray(arr, path, mask=None):
+    """
+    Save a 2D array as an 8-bit grayscale PNG.
+    """
+    out = np.clip(arr, 0.0, 1.0)
+
+    if mask is not None:
+        out = out * (mask > 0.5)
+
+    Image.fromarray((out * 255).astype(np.uint8)).save(path)
+
+
 # --------- LOAD DATASET & MODEL ---------
 ds = MeniscusFullDataset(DATA_ROOT)
 
@@ -79,6 +92,9 @@ state_dict = torch.load(
 
 model.load_state_dict(state_dict)
 model.eval()
+
+GRAY_ROOT = Path(GRAY_ROOT)
+GRAY_ROOT.mkdir(parents=True, exist_ok=True)
 
 OUT_ROOT = Path(OUT_ROOT)
 OUT_ROOT.mkdir(parents=True, exist_ok=True)
@@ -105,8 +121,11 @@ for idx in test_indices:
     case_name = s["case_dir"].parent.name
     step = s["step"]
 
-    case_dir = OUT_ROOT / case_name
-    case_dir.mkdir(parents=True, exist_ok=True)
+    gray_case_dir = GRAY_ROOT / case_name
+    gray_case_dir.mkdir(parents=True, exist_ok=True)
+
+    color_case_dir = OUT_ROOT / case_name
+    color_case_dir.mkdir(parents=True, exist_ok=True)
 
     x_img, x_scalars, y, mask_out = ds[idx]
 
@@ -122,11 +141,18 @@ for idx in test_indices:
     pred_np_masked = pred_np * mask_np[None, :, :]
 
     for c, name in enumerate(names):
-        pred_path = case_dir / f"step{step:02d}_{name}_pred.png"
+        gray_pred_path = gray_case_dir / f"step{step:02d}_{name}_pred.png"
+        color_pred_path = color_case_dir / f"step{step:02d}_{name}_pred_color.png"
+
+        save_gray(
+            pred_np_masked[c],
+            gray_pred_path,
+            mask=mask_np
+        )
 
         save_color(
             pred_np_masked[c],
-            pred_path,
+            color_pred_path,
             mask=mask_np,
             vmin=0.0,
             vmax=1.0
