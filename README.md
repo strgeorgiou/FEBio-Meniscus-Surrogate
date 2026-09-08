@@ -100,17 +100,17 @@ FEBio-Meniscus-Surrogate/
 │   │   └── ligaments_to_non_linear_springs.m
 │   │
 │   └── remeshing/
-│       ├── remeshing_step_1.m
-│       ├── remeshing_step_2.m
+│       ├── febio_to_stl.py
+│       ├── tetgen_remeshing.py
 │       └── evaluate_mesh_sizes.m
 │
 ├── surrogate_model/
 │   ├── final_unet.py
 │   ├── meniscus_dataset.py
 │   ├── train_unet.py
-│   └── viz_unet_outputs.py
+│   ├── viz_unet_outputs.py
+│   └── metrics.py
 │
-├── requirements.txt
 ├── README.md
 ├── LICENSE
 └── .gitignore
